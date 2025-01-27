@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Roboto Slab' rel='stylesheet'>
-	<title>Dumb Vada Pav</title>
+	<title>Python Tricks | Dumb Vada Pav</title>
 	<link rel="icon" type="image/x-icon" href="assets/img/icon.png">
 
 	<script src="https://kit.fontawesome.com/79421e0108.js" crossorigin="anonymous"></script>
@@ -23,22 +23,49 @@
 			margin-top: 20px;
 			margin-bottom: 20px;
 		}
-		.codeblock pre {
-			background-color: #f8f8f8;
-			border: 1px solid #ccc;
-			border-radius: 3px;
-			font-size: 16px;
-			line-height: 1.5;
-			overflow: auto;
-			padding: 10px;
+
+		.codeblock-container {
+		  position: relative;
+		  margin: 0; /* Reset the margin */
+		  background-color: #f5f5f5;
+		  border: 1px solid #ccc;
+		  border-radius: 5px;
+		  font-family: "Courier New", Courier, monospace;
+		  padding: 1rem; /* Inner padding */
+		  overflow: auto;
 		}
-		.codeblock pre code {
-			color: #333;
-			font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
-			font-size: 16px;
-			white-space: pre-wrap;
-			word-break: break-all;
-			tab-size: 4;
+
+		.codeblock {
+		  white-space: pre-wrap; /* Allows wrapping for long lines */
+		  word-break: break-word; /* Breaks long words if necessary */
+		  margin: 0; /* Remove default margin */
+		  padding: 0; /* Remove default padding */
+		}
+
+		.copy-button {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black */
+		  color: white;
+		  border: 1px solid #ccc;
+		  border-radius: 3px;
+		  padding: 2px 5px;
+		  font-size: 0.9rem;
+		  cursor: pointer;
+		  outline: none;
+		  display: flex;
+		  align-items: center;
+		  gap: 5px; /* Space between icon and text */
+		  transition: background-color 0.3s, transform 0.2s;
+		}
+
+		.copy-button:hover {
+		  background-color: rgba(0, 0, 0, 0.6);
+		}
+
+		.copy-button:focus {
+		  outline: 1px solid black;
 		}
 
 		.highlight {
@@ -132,8 +159,9 @@
 
 				<p>In theory, you can run any number of python scripts every time you startup an ipython instance. This is most useful to automatically import commonly used packages such as <code class="softhighlight">numpy</code> and <code class="softhighlight">matplotlib</code>. I also use it to set a <a href="#customplotlib">custom matplotlib style</a> while using ipython. Let's say we wish to run <code class="softhighlight">myscript.py</code> (an example below) every time we start ipython.</p> 
 
-				<div class="codeblock">
-					<pre><code>import numpy as np
+				<div class="codeblock-container">
+					<button class="copy-button" onclick="copyCode(this)">Copy</button>
+					<pre class="codeblock"><code>import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use('my_matplotlib.mplstyle')
 plt.ion()</code></pre>
@@ -154,8 +182,9 @@ plt.ion()</code></pre>
 
 				<p>The first step is to create a file <code class="highlight">my_matplotlib.mplstyle</code> using the list of customizable keywords found <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">here</a> (you don't have to use them all!). Following is my default <code class="softhighlight">matplotlib</code> style, inspired by <a href="https://peterboorman.com/plots.html">Peter Boorman</a>. </p>
 
-				<div class="codeblock">
-					<pre><code>#frame width
+				<div class="codeblock-container">
+					<button class="copy-button" onclick="copyCode(this)">Copy</button>
+					<pre class="codeblock"><code>#frame width
 axes.linewidth: 2
 
 #ticks in or out
@@ -214,8 +243,9 @@ axes.prop_cycle: cycler('color', ['66c2a5', 'fc8d62', '8da0cb', 'e78ac3', 'a6d85
 
 				<p>Sometimes you need all the curves in your plot to have different shades of the same color, or maybe you need them to follow the colors from a colormap instead of the default blue, orange, green, ... order. You can do so using "color cycler". A "color cycler" is an object that <code class="softhighlight">matplotlib</code> uses to assign a color to a new plot element.</p>
 
-				<div class="codeblock">
-					<pre><code>plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.plasma(np.linspace(0, 1, 10)))</code></pre>
+				<div class="codeblock-container">
+					<button class="copy-button" onclick="copyCode(this)">Copy</button>
+					<pre class="codeblock"><code>plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.plasma(np.linspace(0, 1, 10)))</code></pre>
 				</div>
 				<p>Here's the breakdown of the above code: <code class="softhighlight">plt.cycler</code> is a function that creates a cycler object for property <code class="softhighlight">color</code> using the list of 10 colors sampled from the <code class="softhighlight">plasma</code> colormap using <code class="softhighlight">plt.cm.plasma(np.linspace(0, 1, 10))</code>. You can also create complicated cycler objects using a combination of color and linestyles as described <a href="https://matplotlib.org/stable/tutorials/intermediate/color_cycle.html">here</a>.</p>
 			</div>
@@ -229,8 +259,9 @@ axes.prop_cycle: cycler('color', ['66c2a5', 'fc8d62', '8da0cb', 'e78ac3', 'a6d85
 				<div class="section-title"><h2><i class="fab fa-python"></i> Plotting inside a colorbar</h2></div>
 				<p>The colorbar object in python has it's own "AxesSubplot" instance that can be accessed using <code class="softhighlight">cb.ax</code> where <code class="softhighlight">cb</code> is a colorbar object created using <code>plt.colorbar()</code>. In other words, you can do everything with colorbars that you can do with subplots. For example, the following code will produce the image given below.</p>
 
-				<div class="codeblock">
-					<pre><code>cb.ax.set_ylabel('this is y label') #add axes labels
+				<div class="codeblock-container">
+					<button class="copy-button" onclick="copyCode(this)">Copy</button>
+					<pre class="codeblock"><code>cb.ax.set_ylabel('this is y label') #add axes labels
 cb.ax.scatter(0.5, 30, marker='x', color='r') #X-axis limits: 0 to 1; Y-axis limits: inferred from the figure
 cb.ax.text(0.1, 50, "some text", rotation=90, fontsize=14) #add text
 cb.ax.annotate("point", (0.5, 30), (1.1, 10), arrowprops={'arrowstyle': '-|>', 'connectionstyle': 'arc3,rad=0.3'}) #add annotations</code></pre>
@@ -243,5 +274,21 @@ cb.ax.annotate("point", (0.5, 30), (1.1, 10), arrowprops={'arrowstyle': '-|>', '
 <!-- ------------------------------------ -->
 
 	</div>
+
+	<script>
+	function copyCode(button) {
+	  const code = button.nextElementSibling.textContent; // Get the text of the <code> block
+	  navigator.clipboard.writeText(code) // Copy to clipboard
+		.then(() => {
+		  button.textContent = "Copied!"; // Change button text to "Copied!"
+		  setTimeout(() => (button.textContent = "Copy"), 2000); // Reset after 2 seconds
+		})
+		.catch(() => {
+		  button.textContent = "Failed"; // Handle errors gracefully
+		});
+	}
+	</script>
+
+
 </body>
 </html>
